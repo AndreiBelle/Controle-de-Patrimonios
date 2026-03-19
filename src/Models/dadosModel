@@ -1,0 +1,40 @@
+const pool = require('../Database/index');
+
+module.exports = {
+buscaPatrimonio: async () => {
+    const sql = 'SELECT * FROM cadastro'
+    const [linhas] = await pool.execute(sql)
+    return linhas;
+},
+
+cadastraPatrimonio: async (dados) => {
+    const sql = 'INSERT INTO cadastro (patrimonio, situacao, usuario, setor, local, item, marca, modelo, informacoes, caminho_termo, caminho_pdf, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    const [linhas] = await pool.execute(sql, [dados.patrimonio, dados.situacao, dados.usuario, dados.setor, dados.local, dados.item, dados.marca, dados.modelo, dados.informacoes, dados.caminho_termo, dados.caminho_pdf, dados.observacoes]);
+    return linhas;
+}, //, dados.nome_nota, dados.caminho_pdf,
+
+editarPatrimonio: async (id, dados) => {
+    if (!dados.caminho_termo) {
+        let sql = 'UPDATE cadastro SET patrimonio = ?, situacao = ?,  usuario = ?, setor = ?, local = ?, item = ?, marca = ?, modelo = ?, informacoes = ?, observacoes = ? WHERE id = ?'
+        let valores =  [dados.patrimonio, dados.situacao, dados.usuario, dados.setor, dados.local, dados.item, dados.marca, dados.modelo, dados.informacoes, dados.observacoes, id]
+    }else {
+        let sql = 'UPDATE cadastro SET patrimonio = ?, situacao = ?,  usuario = ?, setor = ?, local = ?, item = ?, marca = ?, modelo = ?, informacoes = ?, caminho_termo = ?, observacoes = ? WHERE id = ?'
+        let valores =  [dados.patrimonio, dados.situacao, dados.usuario, dados.setor, dados.local, dados.item, dados.marca, dados.modelo, dados.informacoes, dados.caminho_termo, dados.observacoes, id]
+
+        return await pool.execute(sql, valores)
+    }
+},
+
+deletarPatrimonio: async (id) => {
+    const sql = "DELETE FROM cadastro WHERE id= ?"
+    const [linhas] = await pool.execute(sql, [id])
+    return linhas;
+},
+
+buscaPorId: async (id) => {
+    const sql = "SELECT * FROM cadastro WHERE id = ?"
+    const [linhas] = await pool.execute(sql, [id])
+    return linhas;
+}
+
+};

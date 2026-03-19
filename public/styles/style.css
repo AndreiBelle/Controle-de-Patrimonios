@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    list-style: none;
+}
+
+body {
+    background-color: rgba(255, 255, 255, 0.888);
+    color: #000000
+}
+
+.header {
+    background-color: rgb(231, 231, 231);
+    box-shadow: 0 2px 10px;
+    padding: 10px 0;
+    border-radius: 0 0 20px 20px;
+}
+
+.nav {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.submenu {
+    display: block;          
+    position: absolute;
+    top: 110%;         
+    right: 0;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    min-width: 200px;
+    
+    
+    opacity: 0;   
+    visibility: hidden;       
+    transform: translateY(-10px); 
+    transition: all 0.4s ease; 
+}
+
+.dropdown:hover .submenu {
+    opacity: 1;
+    visibility: visible;       
+    transform: translateY(0);  
+    top: 100%;                 
+}
+
+.submenu li {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.submenu li:last-child {
+    margin-bottom: 0;
+}
+
+.submenu .btnCadastro {
+    display: block;   
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    margin: 0;        
+}
+
+
+.dropdown {
+    position: relative;
+    display:inline-block;
+}
+
+.nav img:hover {
+    transform: scale(1.05);
+}
+
+.btnCadastro {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #227affdc;
+    padding: 10px 40px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid black;
+    transition: all 0.4s ease;
+    display: inline-block
+}
+
+.submenu .btnCadastro {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submenu .btnCadastro:hover {
+    transform: scale(1.02);
+}
+
+.btnCadastro-menu {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #227affdc;
+    padding: 10px 40px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid black;
+    transition: all 0.4s ease;
+    display: inline-block
+}
+
+.btnCadastro-menu:hover {
+    background-color: #00b6d6;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    gap: 10px;
+}
+
+.titulo-patirmonio {
+    margin: 0;
+}
+
+#input-busca {
+    padding: 8px 39%;
+    border-radius: 8px;
+    transition: 0.5s;
+    outline: none;
+    border: 1px solid #ccc;
+}
+
+#input-busca:focus {
+    border-color: #227affdc;
+    box-shadow: 0 0 10px;
+}
+
+.menu-patrimonios {
+    display: flex;          
+    flex-wrap: wrap;       
+    gap: 20px;          
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+
+.card-item {
+    cursor: pointer;       
+    width: 300px;       
+    display: block;     
+}
+
+
+.card-item input {
+    display: none;
+}
+
+.card-content {
+    background: #ffffff;               
+    border: 1.5px solid;
+    border-radius: 15px;            
+    padding: 15px;                  
+    display: flex;                  
+    justify-content: space-between; 
+    align-items: center;            
+    transition: 0.3s;               
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+}
+
+.card-item input:checked + .card-content {
+    border-color: #227affdc;            
+    background-color: #7ce5fc;      
+    transform: translateY(-3px);
+    box-shadow: 2px 3px 15px rgb(15, 15, 15);
+    border-radius: 16px;
+    border-width: 2px;
+}
+
+
+.id-tag {
+    background: #f0f0f0;    
+    padding: 4px 28px;       
+    border-radius: 6px;     
+    font-size: 20px;        
+    font-weight: bold;      
+}
+
+.detalhes strong {
+    display: block;         
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.detalhes small {
+    color: #777;            
+    font-size: 12px;
+}
+
+
+.status-dot {
+    position: relative;
+    top: -55px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;     
+}
+.status-dot.ativo{ background-color: #28a745; }   
+.status-dot.inativo { background-color: #dc3545; }
+
+.destaque {
+    color:#000000
+}

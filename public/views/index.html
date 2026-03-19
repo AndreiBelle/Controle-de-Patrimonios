@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../styles/style.css"/>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+                <a href="https://framento.com.br/"><img class="logo" src="../images/logo.png" height="100"></a>
+
+                <ul class="menu">
+                    <li class="dropdown">
+                        <a href="#" class="btnCadastro-menu">Cadastros</a>
+                        <ul class="submenu">
+                            <li><a href="http://localhost:3000/cadastrar-patrimonio" class="btnCadastro">Cadastrar Patrimônios</a></li>
+                            <li><a href="http://localhost:3000/importacao" class="btnCadastro">Importar Cadastro</a></li>
+                            <li><a href="http://localhost:3000/estoque" class="btnCadastro">Acessar Estoque</a></li>
+                        </ul>
+                    </li>
+                </ul>
+        </nav>
+    </header>
+
+       <div class="card-equipamentos">
+            <div class="header-content">
+                <h1 class="titulo-patrimonio">Patrimônios: </h1>
+            <div class="busca-container"></div>
+                <input type="text" id="input-busca" placeholder="Buscar Patrimônios">
+            </div>
+       </div>
+
+            <div id="container-cards" class="menu-patrimonios"></div>
+       </div>
+
+    <script>
+        async function carregarPatrimonios() {
+        try {
+            const resposta = await fetch('http://localhost:3000/patrimonios-backListar');
+            const dados = await resposta.json();
+            const container = document.getElementById('container-cards');
+            
+            container.innerHTML = ""; 
+            dados.forEach(registro => {
+
+                const situacaoClass = (registro.situacao == 1) ? "ativo" : "inativo";
+                
+                const card = document.createElement('label');
+                card.className = 'card-item';
+                card.id = 'card-item';
+
+                card.innerHTML = `
+                    <input type="radio" name="patrimonio" value="${registro.patrimonio}">
+                    <div class="card-content" id="card_content">
+                        <div class="card-info">
+                            <span class="id-tag">#${registro.patrimonio} - ${registro.item}</span>
+                            <div class="detalhes" id="card">
+                                <strong>Usuário: ${registro.usuario || 'N/A'}</strong>
+                                <small><span class="destaque">Setor:</span> ${registro.setor} | <span class="destaque">Local:</span> ${registro.local}</small>
+                                <br>
+                                <small><span class="destaque">Marca:</span> ${registro.marca} | <span class="destaque">Modelo:</span> ${registro.modelo}</small>
+                                <br>
+                                <small><span class="destaque">Informações:</span> ${registro.informacoes}</small>
+                                <br>
+                                <small><span class="destaque">Observações:</span> ${registro.observacoes || "Nnenuhm dado encontrado!"}</small>
+
+                            </div>
+                        </div>
+                        <span class="status-dot ${situacaoClass}"> </span>
+                    </div>
+                `;
+
+            card.addEventListener("dblclick", () => {
+                window.location.href = `http://localhost:3000/editar/${registro.id}?id=${registro.id}`;
+            })
+                document.getElementById('container-cards').appendChild(card);
+            });
+        } catch (err) {
+            console.error('Erro ao carregar:', err);
+        }  
+
+    }
+
+    
+
+carregarPatrimonios();
+
+document.getElementById('input-busca').addEventListener('input', (e) => {
+    const termo = e.target.value.toLocaleLowerCase();
+    const cards = document.querySelectorAll('.card-item');
+
+    cards.forEach(card => {
+        const textoCard = card.textContent.toLocaleLowerCase();
+
+        if (textoCard.includes(termo)) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none"
+        }        
+    })
+    
+})
+    </script>
+
+</body>
+</html>

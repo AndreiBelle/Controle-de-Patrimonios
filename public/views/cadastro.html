@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastros de patrimônios</title>
+    <link rel="stylesheet" href="../styles/cadastro-edit.css">
+</head>
+<body>
+    
+    <div>
+        <form class="cadastro-patrimonio" id="cadastro-form" method="POST" onsubmit="cadastrarPatrimonio(event)" enctype="multipart/form-data">
+            <h1 class="titulo-cadastro">Cadastrar Patrimônios</h1>
+            <label>Número de patrimônio:</label>
+            <input type="number" id="numero-patrimonio" name="patrimonio" placeholder="Nº Patrimônio">
+
+            <label for="situacao">Situação atual do equipamento</label>
+            <select name="situacao" id="combo-situacao">
+                <option value="0">Inativo</option>
+                <option value="1" selected>Ativo</option>
+            </select>
+            <label>Usuário</label>
+            <input type="text" id="usuario" name="usuario" placeholder="Nome do Usuário">
+            <label>Setor:</label>
+            <input type="text" id="setor" name="setor" placeholder="Setor que o equipamento se encontra">
+            <label>Local</label>
+            <input type="text" id="local" name="local" placeholder="Cidade e estado em que ele se encontra, ex: Chapecó-SC">
+            <label>Item:</label>
+            <input type="text" id="item" name="item" placeholder="Equipamento, ex: Notebook, TV...">
+            <label>Marca:</label>
+            <input type="text" id="marca" name="marca" placeholder="Marca do equipamento">
+            <label>Modelo:</label>
+            <input type="text" id="modelo" name="modelo" placeholder="Modelo do equipamento">
+            <label>Informações adicionais:</label>
+            <input type="text" id="informacoes" name="informacoes" placeholder="Ex: Processador Intel core I5 ">
+            
+            <label>NF:</label>
+            <input class="arquivo" type="file" id="caminho_pdf" name="caminho_pdf" accept=".pdf, .html, .htm" />
+
+            <label>Termo:</label>
+            <input class="termo" type="file" id="caminho_termo" name="caminho_termo" accept=".pdf, .html, .htm" />
+
+
+         
+            <label>Observações:</label>
+            <input type="text" id="observacoes" name="observacoes" placeholder="Observações importantes sobre o equipamento">
+
+            <button id="btnCadastrar" type="submit">Cadastrar</button>
+
+            
+            <a href="http://localhost:3000/patrimonios" class="btnCancel">Cancelar</a>
+            
+
+            <script>
+                async function cadastrarPatrimonio(event) {
+                event.preventDefault();
+
+                const form = document.getElementById('cadastro-form');
+
+                const formData = new FormData(form);
+
+                try {
+                    const resposta = await fetch('/patrimonios-back', {
+                        method: 'POST',        
+                        body: formData 
+                    })
+
+                    const data = await resposta.json()
+
+                    if(resposta.ok) {
+                        alert("Sucesso!")
+                        window.location.href = "http://localhost:3000/patrimonios"
+                    } else {
+                        alert("Problema ao salvar patrimônio!")
+                    }
+                } catch (err) {
+                    console.error("Erro no servidor: ", err);
+                    alert("Erro ao salvar!")
+                }
+            }
+
+            
+            </script>
+        </form>
+    </div>  
+</body>
+</html>

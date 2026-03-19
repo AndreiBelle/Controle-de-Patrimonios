@@ -1,0 +1,168 @@
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+
+body {
+    background-color: rgb(207, 207, 207);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.cadastro-patrimonio {
+    background: white;
+    padding: 5%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.644);
+    max-width: 90%;
+    width: 800px;
+    border-radius: 50px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px 5px;
+    text-align: left;
+}
+
+.cadastro-patrimonio label,
+.cadastro-patrimonio input,
+.cadastro-patrimonio select {
+    width: 100%;
+}
+
+.cadastro-patrimonio label {
+    display: block;  
+    margin-bottom: 8px;   
+    font-weight: bold;
+}
+
+.titulo-cadastro {
+    height: 100;
+    text-align: center;
+    grid-column: span 2;
+
+    margin-bottom: 20px;
+    color: #2d3436;
+    font-size: 50px;
+}
+
+#btnCadastrar {
+    grid-column: span 2;
+    padding: 8px;
+    background-color: #227affdc;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+}
+
+#btnCadastrar:hover {
+    background-color: transparent;
+    border-color: #227affdc;
+    color: #227affdc;
+    box-shadow: 0px 6px 13px;
+}
+
+#combo-situacao {
+    cursor: pointer;
+}
+
+.btnCancel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #227affdc; 
+    color: rgb(0, 0, 0);             
+    text-decoration: none;     
+    height: 40px;           
+    border: 2px solid #333;    
+    border-radius: 12px;       
+    font-family: Arial, sans-serif; 
+    box-sizing: border-box;
+    margin-top: 10px;
+    transition: 0.3s;
+    grid-column: span 2;
+}
+
+.btnCancel:hover {
+    background-color: transparent;
+    border-color: #f52e2e;
+    color: #f52e2e;
+    box-shadow: 0px 6px 13px;
+
+}
+
+#btn-excluir {
+ font-family: Arial, sans-serif; 
+ background-color: rgba(255, 0, 0, 0.719);
+ justify-content: center;
+ align-items: center;
+ height: 40px;
+ margin-top: 10px;
+ border-radius: 12px;
+ width: 100%;
+ transition: 0.3s;
+ cursor: pointer;
+ font-size: 17px;
+}
+
+#btn-excluir:hover {
+background-color: transparent;
+border-color: rgba(255, 0, 0, 0.719);
+color: rgba(255, 0, 0, 0.719);
+box-shadow: 0px 6px 13px;
+}
+
+#link-nf {
+    color: black;
+    text-decoration: none;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid;
+    box-sizing: border-box;
+    padding: 2%;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    justify-content: center;
+    background: #227affdc;
+    transition: 0.3s;
+}
+
+#link-nf:hover {
+    background-color: transparent;
+    border-color: #227affdc;
+    box-shadow: 2px 3px 5px;
+}
+
+#link-termo {
+    color: black;
+    text-decoration: none;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid;
+    box-sizing: border-box;
+    padding: 2%;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    justify-content: center;
+    background: #227affdc;
+    transition: 0.3s;
+}
+
+#link-termo:hover {
+    background-color: transparent;
+    border-color: #227affdc;
+    box-shadow: 2px 3px 5px;
+}
+

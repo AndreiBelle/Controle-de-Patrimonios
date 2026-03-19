@@ -1,0 +1,26 @@
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: rgb(207, 207, 207);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form {
+    padding: 50px;
+    background-color: white;
+    font-family:'Times New Roman', Times, serif;
+    border-radius: 8px;
+}
+
+.titulo-cadastro {
+    text-align: center;
+    margin: 10px;
+}

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastros de patrimônios</title>
+    <link rel="stylesheet" href="../styles/cadastro-edit.css">
+    
+</head>
+<body>
+    
+    <div>
+        <form class="cadastro-patrimonio" id="cadastro-form" onsubmit="enviarFormulario(event)">
+            <h1 class="titulo-cadastro">Editar Patrimônios</h1>
+            <label>Número de patrimônio:</label>
+            <input type="number" name="patrimonio" id="numero-patrimonio" placeholder="Nº Patrimônio">
+
+            <label for="situacao">Situação atual do equipamento</label>
+            <select name="situacao" id="combo-situacao">
+                <option style="color: red;" value="0">Inativo</option>
+                <option style="color: green; "value="1" selected>Ativo</option>
+            </select>
+            <label>Usuário</label>
+            <input type="text" id="usuario" name="usuario" placeholder="Nome do Usuário">
+            <label>Setor:</label>
+            <input type="text" id="setor" name="setor" placeholder="Setor que o equipamento se encontra">
+            <label>Local</label>
+            <input type="text" id="local" name="local" placeholder="Cidade e estado em que ele se encontra, ex: Chapecó-SC">
+            <label>Item:</label>
+            <input type="text" id="item" name="item" placeholder="Equipamento, ex: Notebook, TV...">
+            <label>Marca:</label>
+            <input type="text" id="marca" name="marca" placeholder="Marca do equipamento">
+            <label>Modelo:</label>
+            <input type="text" id="modelo" name="modelo" placeholder="Modelo do equipamento">
+            <label>Informações adicionais:</label>
+            <input type="text" id="informacoes" name="informacoes" placeholder="Ex: Processador Intel core I5 ">
+            <label>Observações:</label>
+            <input type="text" id="observacoes" name="observacoes" placeholder="Observações importantes sobre o equipamento">
+
+            <label>Ver N.F:</label>
+            <a id="link-nf" href=""></a>
+            
+            <label>Ver Termo do usuário:</label>
+            <a id="link-termo" href=""></a>
+
+
+            <label>Editar termo</label>
+            <input class="termo" type="file" id="caminho_termo" name="caminho_termo" accept=".pdf, .html, .htm" />
+            
+            
+            <button id="btnCadastrar" type="submit">Editar</button>
+            <div class="cancelar">
+                <a href="http://localhost:3000/patrimonios" class="btnCancel">Cancelar</a>
+            </div>
+            <div>
+                <button id="btn-excluir" type="button">Excluir</button>
+            </div>
+            <script>
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+
+                async function carregarDados() {
+                    
+
+                    try {
+                    const consulta = await fetch(`/patrimonios-back/${id}`);
+                    const date = await consulta.json()
+                    
+                    const dados = date[0] || {};
+
+                    const nPatrimonio = parseInt(dados.patrimonio, 10);
+
+                    const urlAtual = window.location.href;
+                    const parte = urlAtual.split('/')
+                    const idDoc = parte[parte.length -1];
+
+                    const link_nf = document.getElementById('link-nf');
+                    const link_termo = document.getElementById('link-termo');
+                    
+                    if(idDoc) {
+                        link_termo.href = `http://localhost:3000/ver-termo/${idDoc}`;
+                        link_termo.textContent = `Termo de cuidados do equipamento: ${nPatrimonio}`;
+                        link_termo.target = "_blank";
+                    } else {
+                        link_termo.textContent = "Termo não encontrado..."
+                        link_termo.style.pointerEvents = "none";
+                    }
+
+                    if (idDoc) {
+                    link_nf.href = `http://localhost:3000/ver-pdf/${idDoc}`;
+                    link_nf.textContent = `Nota Fiscal do equipamento: ${nPatrimonio}`
+                    link_nf.target = '_blank';
+                    } else {
+                        link_nf.textContent = 'Documento não encontrado...'
+                        link_nf.style.pointerEvents = "none";
+                    }
+
+                        const patrimonio = document.getElementById('numero-patrimonio').value = nPatrimonio || "";
+                        const situacao = document.getElementById('combo-situacao'). value = dados.situacao;
+                        const usuario = document.getElementById('usuario').value = dados.usuario || "";
+                        const setor = document.getElementById('setor').value = dados.setor || "";
+                        const local = document.getElementById('local').value = dados.local || "";
+                        const item = document.getElementById('item').value = dados.item || "";
+                        const marca = document.getElementById('marca').value = dados.marca || "";
+                        const modelo = document.getElementById('modelo').value = dados.modelo || "";
+                        const informacoes = document.getElementById('informacoes').value = dados.informacoes || "";
+                        const observacoes = document.getElementById('observacoes').value = dados.observacoes || "";
+
+
+                } catch (err) {
+                    console.error(err)
+                }
+                }
+                
+                document.addEventListener("DOMContentLoaded", carregarDados);
+
+                async function enviarFormulario(event){ 
+
+                    event.preventDefault();
+                    
+                if (!id) {
+                    alert("Erro: ID do patrimônio não encontrado na URL!");
+                    return;
+                }
+
+                const form = document.getElementById('cadastro-form');
+
+                const formData = new FormData(form);
+
+                try {
+                    const resposta = await fetch(`/patrimonios-editar-back/${id}`,{
+                        method: 'PUT',
+                        body: formData
+                    });
+
+                    const data = await resposta.json();
+                    
+                    if (resposta.ok) {
+                        alert("Sucesso: ", data.mensagem);
+                        window.location.href = "http://localhost:3000/patrimonios"
+                    } else {
+                        alert("Erro no serv: ", data.mensagem)
+                    }
+                } catch (err) {
+                    console.error("Erro do servidor: ", err)
+                    alert("Erro ao editar patrimonio")
+                }
+            }
+
+            const btnExcluir = document.getElementById('btn-excluir');
+            const idEquipamento = id;
+
+        
+
+            btnExcluir.addEventListener('click', async function () {
+                if (!id) {
+                    alert('ID não encontrado')
+                    return
+                }
+
+                const confirmar = confirm("Tem certeza que deseja remover este patrimonio?")
+
+                if(confirmar) {
+                    try {
+                        const resposta = await fetch(`/patrimonios-deletar-back/${id}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (resposta.ok) {
+                            alert("Equipamento removido com sucesso!");
+                            window.location.href = "http://localhost:3000/patrimonios";
+                        } else {
+                            alert("Erro ao tentar remover o equipamento");
+                        } 
+                    } catch (err) {
+                        conosle.error("Erro na conexão: ", err);
+                        alert("Problema no servidor");
+                    }
+                }
+            });
+        
+       </script>
+        </form>
+    </div>  
+</body>
+</html>
