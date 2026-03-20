@@ -1,29 +1,51 @@
-const excelJS = require('exceljs')
-const path = require('path')
+const ExcelJS = require('exceljs');
 
-let caminho = path.join("C:/Users/Andrei TI/Desktop/testeDeImportacao.xlsx")
+async function ExcelService(buffer) {
+    try {
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(buffer);
 
-async function ExcelService() {
-    try{
-        const workbook = new excelJS.Workbook(caminho);
+        const worksheet = workbook.getWorksheet(1);
+        const dadosJson = [];
 
-        await workbook.xlsx.readFile(caminho);
+        for (let i = 2; i <= worksheet.rowCount; i++) {
+            const row = worksheet.getRow(i);
+            
+            if (row.hasValues) {
+                const patrimonio = row.getCell(1).value;
+                const situacao = row.getCell(2).value;
+                const usuario = row.getCell(3).value;
+                const setor = row.getCell(4).value;
+                const local = row.getCell(5).value;
+                const item = row.getCell(6).value;
+                const marca = row.getCell(7).value;
+                const modelo = row.getCell(8).value;
+                const informacoes = row.getCell(9).value;
+                const observacoes = row.getCell(10).value;
 
-        const worksheet = workbook.getWorksheet(1)
 
-        worksheet.eachRow({ includeEmpty : false}, (row, rowNumber) => {
-            if (rowNumber > 1) {
-                const cuscus = row.getCell(1).value;
-                const ModeloVeic = row.getCell(2).value;
-
-                console.log(`Linha ${rowNumber}: Motorista: ${cuscus} | ModeloVeic ${ModeloVeic}`);
+                dadosJson.push({
+                    patrimonio: patrimonio,
+                    situacao: situacao,
+                    usuario: usuario,
+                    setor: setor,
+                    local: local,
+                    item: item,
+                    marca: marca,
+                    modelo: modelo,
+                    informacoes: informacoes,
+                    observacoes: observacoes,
+                });
             }
-        })
-        
-    } catch (err){
-        console.log("Erro ao ler planilha: ", err)
+        }
+
+        console.log("Total de linhas processadas:", dadosJson.length);
+        return dadosJson;
+
+    } catch (err) {
+        console.error("Erro crítico no ExcelService:", err);
+        throw err; 
     }
-   
 }
 
-ExcelService();
+module.exports = { ExcelService };

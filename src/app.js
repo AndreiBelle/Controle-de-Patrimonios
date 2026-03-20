@@ -3,7 +3,7 @@ const cors = require('cors');                               // Permite o servido
 const pool = require('../src/Database/index');            //Importando conexão do Banco
 const dadosRouters = require('./Routers/dadosRouters')
 const path = require('path');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 
 
 const app = express();
@@ -11,6 +11,13 @@ const app = express();
 
 app.use(express.json())      // "Ensinando" o serv a ler pacotes de dados no formato de JSON;
 app.use(cors()); 
+
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: false, // Isso remove a regra "default-src none" que está travando tudo
+//     crossOriginResourcePolicy: false,
+//   })
+// );
 
 // app.use(express.static...): ESSENCIAL. Diz ao Node que a pasta 'public' é aberta.
 // Sem isso, seu HTML não consegue carregar o CSS ou imagens.

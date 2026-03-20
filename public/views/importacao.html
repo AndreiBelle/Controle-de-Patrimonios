@@ -9,14 +9,42 @@
 <body>
     
     <div class="container">
-        <form class="Importar-cadastro" id="cadastro-form" method="POST" onsubmit="" enctype="multipart/form-data">
-            <h1 class="titulo-cadastro">Importar Cadastros</h1>
+        <form class="Importar-cadastro" id="importacao-form" onsubmit="enviarDados(event)" enctype="multipart/form-data">
+            <h1 class="titulo-importacao">Importar Cadastros</h1>
             <div class="form">
                 <label class="titulo-import">Selecione o arquivo para importar:</label>
-                <input type="file" id="excel" accept=".xlsx, .xls">
+                <input type="file" id="excel" name="excel" accept=".xlsx, .xls">
                 <input type="submit" value="Enviar">
             </div>
         </form>
-    </div>  
+    </div>
+
+    <script>
+        async function enviarDados(event) {
+            event.preventDefault();
+
+            const form = document.getElementById("importacao-form");
+            const formData = new FormData(form)
+
+            try{
+                const dados = await fetch('/importacao', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const resposta = await dados.json()
+
+                if(resposta.ok) {
+                    alert("Importação deu certo!")
+                } else {
+                    alert(dados.mensagem)
+                }
+            } catch(err) {
+                console.log("Erro: ",err)
+                alert(err)
+            }
+        }
+
+    </script>
 </body>
 </html>

@@ -1,4 +1,6 @@
+const { Workbook } = require('exceljs');
 const dadosModel = require('../Models/dadosModel');
+const importacao = require('../services/apiExcel');
 const path = require('path')
 
 module.exports = {
@@ -97,6 +99,44 @@ buscaDocumento: async (req, res, next) => {
     
 
     next();
+},
+
+importarPlanilha: async (req, res) => {
+    if(!req.file) {
+        return res.status(400).json({mensagem: "Envie uma planilha!"})
+    }
+
+    try {
+        const dadosExtraidos = await importacao.ExcelService(req.file.buffer);
+
+        
+        for(const item of dadosExtraidos) {
+
+            const situacao = (item.situacao == "Ativo") ? 1 : 2;
+
+            await dadosModel.cadastraPatrimonio({
+                patrimonio: String(item.patrimonio), 
+                situacao: situacao,
+                usuario: item.usuario || "Sem Usuario",
+                setor: item.setor || null,
+                local: item.local || null,
+                item: item.item,
+                marca: item.marca,
+                modelo: item.modelo || null,
+                informacoes: item.informacoes || null,
+                caminho_termo: null,
+                caminho_pdf: null,
+                observacoes: item.observacao || null
+            })
+        }
+
+    } catch(err) {
+        console.error("ERRO REAL AQUI:", err);
+        return res.status(500).json({
+            mensagem: "Erro ao processar a planilha",
+            detalhe: err.message 
+        });
+    }
 }
 
 };

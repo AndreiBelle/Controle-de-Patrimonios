@@ -16,12 +16,11 @@ body {
 
 .cadastro-patrimonio {
     background: white;
-    padding: 5%;
-    text-align: center;
+    padding: 2%;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.644);
     max-width: 90%;
     width: 800px;
-    border-radius: 50px;
+    border-radius: 45px;
 
     display: grid;
 

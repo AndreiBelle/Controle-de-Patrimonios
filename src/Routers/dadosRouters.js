@@ -5,6 +5,9 @@ const dadosController = require('../Controller/dadosController');
 const path = require('path'); //'path' ajuda o Node a não se perder nas pastas
 const fs = require('fs')
 
+const storageTemp = multer.memoryStorage();
+const uploadTemp = multer({storage:storageTemp});
+
 const storage = multer.diskStorage({
     destination: (req, file, cd) => {
 
@@ -56,7 +59,7 @@ router.get('/estoque', (req, res) => {
     res.sendFile(path.join('..', '..', 'public', 'views', 'estoque.html'));
 })
 
-router.get('/importacao', (req, res) => {
+router.get('/importacao-back', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'public', 'views', 'importacao.html'));
 })
 
@@ -65,6 +68,8 @@ router.get('/patrimonios-back/:id', dadosController.buscarPorId);
 router.post('/patrimonios-back',upload.fields([{name: 'caminho_pdf', maxCount: 1}, {name: 'caminho_termo', maxCount: 1}]), dadosController.criarPatrimonios);
 router.put('/patrimonios-editar-back/:id',upload.single('caminho_termo'), dadosController.editarPatrimonios);
 router.delete('/patrimonios-deletar-back/:id', dadosController.deletarPatrimonio);
+
+router.post('/importacao', uploadTemp.single('excel'), dadosController.importarPlanilha);
 
 router.get('/ver-pdf/:id', dadosController.buscaDocumento, (req, res) => {
 
