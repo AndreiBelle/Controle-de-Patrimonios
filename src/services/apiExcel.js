@@ -43,7 +43,7 @@ async function ExcelService(buffer) {
         return dadosJson;
 
     } catch (err) {
-        console.error("Erro crítico no ExcelService:", err);
+        console.error("Erro no ExcelService:", err);
         throw err; 
     }
 }

@@ -131,7 +131,7 @@ importarPlanilha: async (req, res) => {
         }
 
     } catch(err) {
-        console.error("ERRO REAL AQUI:", err);
+        console.error("ERRO AQUI:", err);
         return res.status(500).json({
             mensagem: "Erro ao processar a planilha",
             detalhe: err.message 
