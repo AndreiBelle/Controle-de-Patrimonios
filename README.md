@@ -5,7 +5,7 @@ seja termos de usos até notas dos equipamentos utilizados.
 
 ## Como realizar a implantação do sistema localmente?
 
-Vou passar aqui através do gerenciador de processos PM2, através do CMD (recomendo o PowerShell por achar ele mais "completo")
+Vou passar aqui utilizando o gerenciador de processos PM2, através do CMD (recomendo o PowerShell por achar ele mais "completo")
 realize a instalação do PM2 (**npm install pm2 -g**) para o windows é necessario instalar um pacote para ele iniciar o serviço sozinho caso ele o servidor fique fora 
 (**npm install pm2-windows-service -g**). 
 
