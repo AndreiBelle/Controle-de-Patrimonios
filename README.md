@@ -9,8 +9,11 @@ Vou passar aqui utilizando o gerenciador de processos PM2, através do CMD (reco
 realize a instalação do PM2 (**npm install pm2 -g**) para o windows é necessario instalar um pacote para ele iniciar o serviço sozinho caso ele o servidor fique fora 
 (**npm install pm2-windows-service -g**). 
 
-Após a instalação do PM2 acesse a pasta do projeto através do **cd** ou abra a pasta d seu projeto e no local que mostra o diretório da pasta
-clique no diretório, apague e escreva **cmd**, ele vai abrir no diretório do projeto, após isso execute o comando **pm2 start server.js --name "site-patrimonios"** e depois **pm2 save**. 
+Após a instalação do PM2 acesse a pasta do projeto através do comando **cd** no cmd ou abra a pasta do seu projeto e no local que mostra o diretório da pasta
+clique no diretório como nesse exmplo:
+<img width="1639" height="113" alt="image" src="https://github.com/user-attachments/assets/1548ea57-32d8-4055-92ac-10a419882bb3" />
+
+Ppague e escreva **cmd** e de um "Enter", ele vai abrir no diretório do projeto, após isso execute o comando **pm2 start server.js --name "site-patrimonios"** e depois **pm2 save**. 
 Para testar se deu certo a instalação execute **pm2 status**, ele vai mostrar o status em verde ou online. 
 
 # IMPORTANTE! Importação das planilhas e PDFs de termos e notas
