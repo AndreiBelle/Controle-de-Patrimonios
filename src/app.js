@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');                         //impotando o motor principal do servidor (resumindo ele facilita a criação das rotas)
 const cors = require('cors');                               // Permite o servidor a aceitar pedidos de outros sites/dominios;                            
 const pool = require('../src/Database/index');            //Importando conexão do Banco

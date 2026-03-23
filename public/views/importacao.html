@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastros de patrimônios</title>
+    <link rel="icon" type="image/x-icon" href="../images/logo-Site.png">
     <link rel="stylesheet" href="../styles/importacao.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     
@@ -30,18 +33,28 @@
                 const dados = await fetch('/importacao', {
                     method: 'POST',
                     body: formData
-                });
+                },
+                Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'A importação ocorreu com sucesso!',
+                        icon: 'succes',
+                        confirmButtonText: 'Ok',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didClose: () => {
+                            window.location.href = 'http://localhost:3000/patrimonios';
+                        }
+                    })
+            );
 
                 const resposta = await dados.json()
-
-                if(resposta.ok) {
-                    alert("Importação deu certo!")
-                } else {
-                    alert(dados.mensagem)
+                    
+                if (!dados.ok) {
+                    Swal.fire('Erro!', 'Problema interno no servidor: '+resposta.mensagem, 'error')
                 }
             } catch(err) {
                 console.log("Erro: ",err)
-                alert(err)
+                Swal.fire('Erro!', 'Problema interno no servidor:'+err, 'error')
             }
         }
 

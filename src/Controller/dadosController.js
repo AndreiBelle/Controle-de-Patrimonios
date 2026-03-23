@@ -21,7 +21,17 @@ criarPatrimonios: async (req, res) => {
     const patrimonio = Number(req.body.patrimonio);
 
     const caminho_pdf = req.files['caminho_pdf'] ? req.files['caminho_pdf'][0].path : null;
-    const caminho_termo = req.files['caminho_termo'] ? req.files['caminho_termo'][0].path : null
+    const caminho_termo = req.files['caminho_termo'] ? req.files['caminho_termo'][0].path : null;
+
+    const userFront = req.body.usuario;
+    const itemFront = req.body.item
+
+    const verifica = await dadosModel.verificaExistente(userFront, itemFront)
+
+    if (verifica.length > 0) {
+        console.log("Usuario já existe!")
+        return res.status(409).json({mensagem : "Usuario já existe"})
+    } 
 
     try{
         const novoPatrimonio = await dadosModel.cadastraPatrimonio({patrimonio, situacao, usuario, setor, local, item, marca, modelo, informacoes, caminho_termo, caminho_pdf, observacoes});
@@ -128,6 +138,7 @@ importarPlanilha: async (req, res) => {
                 caminho_pdf: null,
                 observacoes: item.observacao || null
             })
+
         }
 
     } catch(err) {

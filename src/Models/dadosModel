@@ -11,7 +11,7 @@ cadastraPatrimonio: async (dados) => {
     const sql = 'INSERT INTO cadastro (patrimonio, situacao, usuario, setor, local, item, marca, modelo, informacoes, caminho_termo, caminho_pdf, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
     const [linhas] = await pool.execute(sql, [dados.patrimonio, dados.situacao, dados.usuario, dados.setor, dados.local, dados.item, dados.marca, dados.modelo, dados.informacoes, dados.caminho_termo, dados.caminho_pdf, dados.observacoes]);
     return linhas;
-}, //, dados.nome_nota, dados.caminho_pdf,
+},
 
 editarPatrimonio: async (id, dados) => {
     if (!dados.caminho_termo) {
@@ -34,6 +34,12 @@ deletarPatrimonio: async (id) => {
 buscaPorId: async (id) => {
     const sql = "SELECT * FROM cadastro WHERE id = ?"
     const [linhas] = await pool.execute(sql, [id])
+    return linhas;
+},
+
+verificaExistente: async (usuario, item) => {
+    const sql = "SELECT usuario FROM cadastro WHERE usuario = ? AND item = ?"
+    const [linhas] = await pool.execute(sql, [usuario, item])
     return linhas;
 }
 

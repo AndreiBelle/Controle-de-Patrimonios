@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastros de patrimônios</title>
+    <link rel="icon" type="image/x-icon" href="../images/logo-Site.png">
     <link rel="stylesheet" href="../styles/cadastro-edit.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     
@@ -68,14 +71,27 @@
                     const data = await resposta.json()
 
                     if(resposta.ok) {
-                        alert("Sucesso!")
-                        window.location.href = "http://localhost:3000/patrimonios"
-                    } else {
-                        alert("Problema ao salvar patrimônio!")
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            text: 'Cadastro realizado com sucesso.',
+                            icon: 'success',
+                            confirmButtonText: 'Show de bola!'
+                        }).then((result) => {
+                            if(result.isConfirmed) {
+                                window.location.href = "http://localhost:3000/patrimonios"
+                            }
+                        })
+                    } else if (resposta.status === 409){
+                        Swal.fire({
+                            title: "Erro",
+                            text: 'Usuário já está atrelado a esse equipamento!',
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        })
                     }
                 } catch (err) {
                     console.error("Erro no servidor: ", err);
-                    alert("Erro ao salvar!")
+                    Swal.fire('Erro!', 'Erro no servidor: '+err, 'Erro')
                 }
             }
 
