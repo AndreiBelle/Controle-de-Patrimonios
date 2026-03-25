@@ -18,7 +18,9 @@ app.use(cors());
 // Sem isso, seu HTML não consegue carregar o CSS ou imagens.
 app.use(express.static(path.join(__dirname, '../public')));
 
+
 // Conecta todas as rotas que criamos no arquivo acima na raiz do site
 app.use('/', dadosRouters);
+
 
 module.exports = app;

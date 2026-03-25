@@ -6,6 +6,7 @@
     <title>Cadastros de patrimônios</title>
     <link rel="icon" type="image/x-icon" href="../images/logo-Site.png">
     <link rel="stylesheet" href="../styles/cadastro-edit.css">
+    <script src="/js/auth.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -51,12 +52,14 @@
             <button id="btnCadastrar" type="submit">Cadastrar</button>
 
             
-            <a href="http://localhost:3000/patrimonios" class="btnCancel">Cancelar</a>
+            <a href="http://localhost:63263/patrimonios" class="btnCancel">Cancelar</a>
             
 
             <script>
                 async function cadastrarPatrimonio(event) {
                 event.preventDefault();
+
+                const token = localStorage.getItem('token');
 
                 const form = document.getElementById('cadastro-form');
 
@@ -64,7 +67,10 @@
 
                 try {
                     const resposta = await fetch('/patrimonios-back', {
-                        method: 'POST',        
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }, 
                         body: formData 
                     })
 
@@ -78,7 +84,7 @@
                             confirmButtonText: 'Show de bola!'
                         }).then((result) => {
                             if(result.isConfirmed) {
-                                window.location.href = "http://localhost:3000/patrimonios"
+                                window.location.href = "http://localhost:63263/patrimonios"
                             }
                         })
                     } else if (resposta.status === 409){

@@ -1,4 +1,5 @@
 require('dotenv').config()
+const verificarToken = require('../Middlewares/authMiddleware');
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -64,13 +65,21 @@ router.get('/importacao-back', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'public', 'views', 'importacao.html'));
 })
 
-router.get('/patrimonios-backListar', dadosController.listaPatrimonios);
-router.get('/patrimonios-back/:id', dadosController.buscarPorId);
-router.post('/patrimonios-back',upload.fields([{name: 'caminho_pdf', maxCount: 1}, {name: 'caminho_termo', maxCount: 1}]), dadosController.criarPatrimonios);
-router.put('/patrimonios-editar-back/:id',upload.single('caminho_termo'), dadosController.editarPatrimonios);
-router.delete('/patrimonios-deletar-back/:id', dadosController.deletarPatrimonio);
+router.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'views', 'login.html'));
+})
 
-router.post('/importacao', uploadTemp.single('excel'), dadosController.importarPlanilha);
+// router.get('/importacao-back', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', '..', 'public', 'views', 'importacao.html'));
+// })
+
+router.get('/patrimonios-backListar', verificarToken, dadosController.listaPatrimonios);
+router.get('/patrimonios-back/:id', verificarToken, dadosController.buscarPorId);
+router.post('/patrimonios-back',upload.fields([{name: 'caminho_pdf', maxCount: 1}, {name: 'caminho_termo', maxCount: 1}]), verificarToken, dadosController.criarPatrimonios);
+router.put('/patrimonios-editar-back/:id',upload.single('caminho_termo'), verificarToken, dadosController.editarPatrimonios);
+router.delete('/patrimonios-deletar-back/:id', verificarToken, dadosController.deletarPatrimonio);
+
+router.post('/importacao', uploadTemp.single('excel'), verificarToken, dadosController.importarPlanilha);
 
 router.get('/ver-pdf/:id', dadosController.buscaDocumento, (req, res) => {
 
@@ -111,6 +120,9 @@ router.get('/ver-termo/:id', dadosController.buscaDocumento, (req, res) => {
 
     readStream.pipe(res);
 })
+
+router.post('/cadastro-back', dadosController.cadastroUsuario);
+router.post('/login-back', dadosController.loginUsuario)
 
 
 

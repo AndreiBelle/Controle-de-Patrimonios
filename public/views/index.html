@@ -6,6 +6,7 @@
     <title>Home</title>
     <link rel="icon" type="image/x-icon" href="../images/logo-Site.png" height="1000px">
     <link rel="stylesheet" href="../styles/style.css"/>
+    <script src="/js/auth.js"></script>
 </head>
 <body>
     <header class="header">
@@ -16,9 +17,9 @@
                     <li class="dropdown">
                         <a href="#" class="btnCadastro-menu">Cadastros</a>
                         <ul class="submenu">
-                            <li><a href="http://localhost:3000/cadastrar-patrimonio" class="btnCadastro">Cadastrar Patrimônios</a></li>
-                            <li><a href="http://localhost:3000/importacao-back" class="btnCadastro">Importar Cadastro</a></li>
-                            <li><a href="http://localhost:3000/estoque" class="btnCadastro">Acessar Estoque</a></li>
+                            <li><a href="http://localhost:63263/cadastrar-patrimonio" class="btnCadastro">Cadastrar Patrimônios</a></li>
+                            <li><a href="http://localhost:63263/importacao-back" class="btnCadastro">Importar Cadastro</a></li>
+                            <li><a href="#" class="btnSair" id="btnSair">Sair</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -39,7 +40,20 @@
     <script>
         async function carregarPatrimonios() {
         try {
-            const resposta = await fetch(`http://localhost:3000/patrimonios-backListar`);
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+
+                window.location.href = "/login";
+                return;
+            }
+
+            const resposta = await fetch(`http://localhost:63263/patrimonios-backListar`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }, 
+                
+            });
             
             const dados = await resposta.json();
             const container = document.getElementById('container-cards');
@@ -75,7 +89,7 @@
                 `;
 
             card.addEventListener("dblclick", () => {
-                window.location.href = `http://localhost:3000/editar/${registro.id}?id=${registro.id}`;
+                window.location.href = `http://localhost:63263/editar/${registro.id}?id=${registro.id}`;
             })
                 document.getElementById('container-cards').appendChild(card);
             });
@@ -104,6 +118,16 @@ document.getElementById('input-busca').addEventListener('input', (e) => {
     })
     
 })
+
+const linkSair = document.getElementById('btnSair')
+
+function logout() {
+    localStorage.removeItem('token');
+    window.location.href = "/login";
+}
+
+linkSair.addEventListener('click', logout);
+
     </script>
 
 </body>

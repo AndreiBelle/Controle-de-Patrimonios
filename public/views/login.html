@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../styles/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" href="../images/logo-Site.png">
+</head>
+<body>
+    
+    <div class="container">
+        <form id="form-login" class="dados">
+                <label for="email">Login</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" required>
+                <div>
+                    <button type="submit">Entrar</button>
+                </div>
+        </form>
+    </div>
+    
+    
+
+    <script>
+        const form = document.getElementById('form-login');
+
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+
+            const dados = Object.fromEntries(formData);
+
+            try {
+                const resposta = await fetch('http://localhost:63263/login-back', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            });
+
+                const data = await resposta.json();
+                    
+                    if (resposta.ok) {
+
+                        localStorage.setItem('token', data.token);
+
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            text: 'Sucesso no login',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then((result => {
+                            if (result.isConfirmed) {
+                                window.location.href = "http://localhost:63263/patrimonios"
+                            }
+                        }))
+                    } else {
+                       Swal.fire('Erro!', 'Erro no servidor: ' + (data.mensagem || 'Credenciais inválidas'), 'error');
+                    }
+                } catch (err) {
+                    console.error("Erro do servidor: ", err)
+                    Swal.fire (
+                            'Erro!',
+                            'Erro no servidor...',
+                            'error'
+                        )
+                }
+            
+            });
+
+    </script>
+</body>
+</html>

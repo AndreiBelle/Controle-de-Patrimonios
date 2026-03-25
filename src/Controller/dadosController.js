@@ -1,7 +1,11 @@
+require('dotenv').config();
 const { Workbook } = require('exceljs');
 const dadosModel = require('../Models/dadosModel');
 const importacao = require('../services/apiExcel');
 const path = require('path')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
 
 module.exports = {
 
@@ -148,6 +152,71 @@ importarPlanilha: async (req, res) => {
             detalhe: err.message 
         });
     }
-}
+},
 
-};
+cadastroUsuario: async (req, res) => {
+
+    const email = req.body.email;
+    const senhaDigitada = req.body.senha;
+
+    const salt = await bcrypt.genSalt(10);
+    const senhaCript = await bcrypt.hash(senhaDigitada, salt);
+
+    const verificaUser = await dadosModel.buscaEmail(email)
+
+    if(verificaUser.length > 0 ) {
+        return res.status(404).json({mensagem: "Usuario já cadastrado!"})
+    }
+
+    try {
+        const novoUser = await dadosModel.cadastraUser(email, senhaCript)
+
+        return res.status(200).json({mensagem: 'usuário cadastrado!'});
+    } catch (err){
+        console.log("Erro ao cadastrar usuário: "+err)
+        return res.status(500).json({mensagem: "Erro no serv: "+err})
+    }
+
+},
+
+loginUsuario: async (req, res) => {
+
+    console.log("Minha chave secreta é:", process.env.CHAVE_TOKEN_JWT);
+
+    try {
+    const email = req.body.email.trim();
+    const senhaDigitada = req.body.senha.trim();
+
+    const dadosBanco = await dadosModel.buscaEmail(email)
+
+    if (!dadosBanco || dadosBanco.length === 0) {
+        return res.status(401).json({ mensagem: 'Usuário não encontrado' });
+    }
+
+    const  usuario = dadosBanco[0];
+    const senhaBanco = usuario.senha;
+
+    const validaSenha = await bcrypt.compare(senhaDigitada, senhaBanco);
+
+    if (!validaSenha) {
+            
+            return res.status(401).json({ mensagem: 'Senha ou Email inválidos' });
+    }
+    const token = jwt.sign(
+            { id: usuario.id, email: usuario.email }, 
+            process.env.CHAVE_TOKEN_JWT,                 
+            { expiresIn: '1h' }                       
+        );
+
+       
+        return res.status(200).json({ 
+            mensagem: 'Sucesso no login', 
+            token: token 
+        });
+
+    } catch (error) {
+        console.error("Erro no login:", error);
+        return res.status(500).json({ mensagem: 'Erro interno no servidor' });
+    }
+}    
+}

@@ -41,6 +41,18 @@ verificaExistente: async (usuario, item) => {
     const sql = "SELECT usuario FROM cadastro WHERE usuario = ? AND item = ?"
     const [linhas] = await pool.execute(sql, [usuario, item])
     return linhas;
+},
+
+cadastraUser: async (email, senhaCript) => {
+    const sql = 'INSERT INTO usuario (email, senha) VALUES (?, ?)'
+    const [linhas] = await pool.execute(sql, [email, senhaCript]);
+    return linhas;
+},
+
+buscaEmail: async (email) => {
+    const sql = 'SELECT * FROM usuario WHERE email = ?'
+    const [linhas] = await pool.execute(sql, [email])
+    return linhas;
 }
 
 };

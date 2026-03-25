@@ -75,6 +75,13 @@ body {
     margin: 0;        
 }
 
+.submenu .btnSair {
+    display: block;   
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    margin: 0;        
+}
 
 .dropdown {
     position: relative;
@@ -98,6 +105,19 @@ body {
     display: inline-block
 }
 
+.btnSair {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #ff2222dc;
+    padding: 10px 40px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid black;
+    transition: all 0.4s ease;
+    display: inline-block
+}
+
 .submenu .btnCadastro {
     display: block;
     width: 100%;
@@ -107,6 +127,10 @@ body {
 }
 
 .submenu .btnCadastro:hover {
+    transform: scale(1.02);
+}
+
+.submenu .btnSair:hover {
     transform: scale(1.02);
 }
 

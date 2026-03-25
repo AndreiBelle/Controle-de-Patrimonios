@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="../images/logo-Site.png">
     <link rel="stylesheet" href="../styles/cadastro-edit.css">        
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/auth.js"></script>
 
 </head>
 <body>
@@ -52,7 +53,7 @@
             
             <button id="btnCadastrar" type="submit">Editar</button>
             <div class="cancelar">
-                <a href="http://localhost:3000/patrimonios" class="btnCancel">Cancelar</a>
+                <a href="http://localhost:63263/patrimonios" class="btnCancel">Cancelar</a>
             </div>
             <div>
                 <button id="btn-excluir" type="button">Excluir</button>
@@ -63,10 +64,16 @@
                 const id = urlParams.get('id');
 
                 async function carregarDados() {
-                    
+                    const token = localStorage.getItem('token');
 
                     try {
-                    const consulta = await fetch(`/patrimonios-back/${id}`);
+                        
+                    const consulta = await fetch(`/patrimonios-back/${id}`, {
+                    method: 'GET', 
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
                     const date = await consulta.json()
                     
                     const dados = date[0] || {};
@@ -81,7 +88,7 @@
                     const link_termo = document.getElementById('link-termo');
                     
                     if(idDoc) {
-                        link_termo.href = `http://localhost:3000/ver-termo/${idDoc}`;
+                        link_termo.href = `http://localhost:63263/ver-termo/${idDoc}`;
                         link_termo.textContent = `Termo de cuidados do equipamento: ${nPatrimonio}`;
                         link_termo.target = "_blank";
                     } else {
@@ -90,7 +97,7 @@
                     }
 
                     if (idDoc) {
-                    link_nf.href = `http://localhost:3000/ver-pdf/${idDoc}`;
+                    link_nf.href = `http://localhost:63263/ver-pdf/${idDoc}`;
                     link_nf.textContent = `Nota Fiscal do equipamento: ${nPatrimonio}`
                     link_nf.target = '_blank';
                     } else {
@@ -117,7 +124,8 @@
                 
                 document.addEventListener("DOMContentLoaded", carregarDados);
 
-                async function enviarFormulario(event){ 
+                async function enviarFormulario(event){
+                 const token = localStorage.getItem('token');
 
                     event.preventDefault();
                     
@@ -135,8 +143,12 @@
                 const formData = new FormData(form);
 
                 try {
+                    const token = localStorage.getItem('token');
                     const resposta = await fetch(`/patrimonios-editar-back/${id}`,{
                         method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }, 
                         body: formData
                     });
 
@@ -150,7 +162,7 @@
                             confirmButtonText: 'Ok'
                         }).then((result => {
                             if (result.isConfirmed) {
-                                window.location.href = "http://localhost:3000/patrimonios"
+                                window.location.href = "http://localhost:63263/patrimonios"
                             }
                         }))
                     } else {
@@ -186,7 +198,10 @@
                 }
                     try {
                         const resposta = await fetch(`/patrimonios-deletar-back/${id}`, {
-                            method: 'DELETE'
+                            method: 'DELETE',
+                            headers: {
+                            'Authorization': `Bearer ${token}`
+                        }, 
                         });
 
                         if (resposta.ok) {
@@ -208,7 +223,7 @@
                                     timer: 3000,
                                     timerProgressBar: true,
                                     didClose: () => {
-                                        window.location.href = "http://localhost:3000/patrimonios";
+                                        window.location.href = "http://localhost:63263/patrimonios";
                                     }
                                     });
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
