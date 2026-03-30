@@ -52,8 +52,17 @@
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }, 
-                
             });
+
+            if (resposta.status === 401 || resposta.status === 403) {
+                localStorage.removeItem('token');
+                window.location.href = "/login";
+                return;
+            }
+
+            if (!resposta.ok) {
+                throw new Error('Falha ao buscar dados do servidor')
+            }
             
             const dados = await resposta.json();
             const container = document.getElementById('container-cards');

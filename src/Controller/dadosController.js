@@ -181,7 +181,6 @@ cadastroUsuario: async (req, res) => {
 
 loginUsuario: async (req, res) => {
 
-    console.log("Minha chave secreta é:", process.env.CHAVE_TOKEN_JWT);
 
     try {
     const email = req.body.email.trim();
