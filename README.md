@@ -27,4 +27,4 @@ O padrão da planilha e dados para importação sem **termos** ou **notas**são 
 caso queria adicionar a nota/termo na importação execute a planilha nessa forma:
 
 <img width="1836" height="121" alt="image" src="https://github.com/user-attachments/assets/20d8d0f5-3974-489b-bd77-444a0fe9463f" />
-### Sempre iniciando o caminho com a pasta "uploads"
+Sempre iniciando o caminho com a pasta "uploads"
