@@ -77,7 +77,7 @@ router.get('/patrimonios-backListar', verificarToken, dadosController.listaPatri
 router.get('/patrimonios-back/:id', verificarToken, dadosController.buscarPorId);
 router.post('/patrimonios-back',upload.fields([{name: 'caminho_pdf', maxCount: 1}, {name: 'caminho_termo', maxCount: 1}]), verificarToken, dadosController.criarPatrimonios);
 router.put('/patrimonios-editar-back/:id',upload.single('caminho_termo'), verificarToken, dadosController.editarPatrimonios);
-router.delete('/patrimonios-deletar-back/:id', verificarToken, dadosController.deletarPatrimonio);
+router.delete('/patrimonios-deletar-back/:id', dadosController.deletarPatrimonio);
 
 router.post('/importacao', uploadTemp.single('excel'), verificarToken, dadosController.importarPlanilha);
 

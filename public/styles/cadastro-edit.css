@@ -1,167 +1,174 @@
-* {
-    margin: 0%;
-    padding: 0%;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+:root {
+    --select-blue: #00338d;
+    --alert-red: #e31d1a;
+    --confirm-blue: #1238e4;
+    --bg-main: #f1f5f9; 
+    --bg-card: #ffffff;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --radius: 16px;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
 
 body {
-    background-color: rgb(207, 207, 207);
+    background-color: var(--bg-main);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .cadastro-patrimonio {
-    background: white;
-    padding: 2%;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.644);
-    max-width: 90%;
-    width: 800px;
-    border-radius: 45px;
+    background: var(--bg-card);
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    max-width: 850px;
+    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
 
     display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 8px 5px;
-    text-align: left;
-}
-
-.cadastro-patrimonio label,
-.cadastro-patrimonio input,
-.cadastro-patrimonio select {
-    width: 100%;
-}
-
-.cadastro-patrimonio label {
-    display: block;  
-    margin-bottom: 8px;   
-    font-weight: bold;
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px 25px;
 }
 
 .titulo-cadastro {
-    height: 100;
-    text-align: center;
     grid-column: span 2;
-
+    text-align: left;
+    color: var(--select-blue);
+    font-size: 2rem;
+    font-weight: 800;
     margin-bottom: 20px;
-    color: #2d3436;
-    font-size: 50px;
+    border-left: 5px solid var(--alert-red);
+    padding-left: 15px;
+}
+
+.cadastro-patrimonio label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cadastro-patrimonio input, 
+.cadastro-patrimonio select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background-color: #f8fafc;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.cadastro-patrimonio input:focus, 
+.cadastro-patrimonio select:focus {
+    border-color: var(--select-blue);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 51, 141, 0.05);
+}
+
+#link-nf, #link-termo {
+    grid-column: span 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: #eef2ff;
+    color: var(--select-blue);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: 1px dashed var(--select-blue);
+    transition: 0.3s;
+}
+
+#link-nf:hover, #link-termo:hover {
+    background: var(--select-blue);
+    color: white;
 }
 
 #btnCadastrar {
     grid-column: span 2;
-    padding: 8px;
-    background-color: #227affdc;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: 0.3s;
+    padding: 15px;
+    background-color: var(--select-blue);
+    color: white;
+    border: none;
     border-radius: 10px;
-    font-family: Arial, sans-serif;
-    font-size: 17px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
 }
 
 #btnCadastrar:hover {
-    background-color: transparent;
-    border-color: #227affdc;
-    color: #227affdc;
-    box-shadow: 0px 6px 13px;
-}
-
-#combo-situacao {
-    cursor: pointer;
+    background-color: var(--confirm-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(26, 73, 227, 0.3);
 }
 
 .btnCancel {
+    grid-column: span 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #227affdc; 
-    color: rgb(0, 0, 0);             
-    text-decoration: none;     
-    height: 40px;           
-    border: 2px solid #333;    
-    border-radius: 12px;       
-    font-family: Arial, sans-serif; 
-    box-sizing: border-box;
-    margin-top: 10px;
+    background-color: #f1f5f9;
+    color: var(--text-light);
+    text-decoration: none;
+    height: 45px;
+    border-radius: 10px;
+    font-weight: 600;
     transition: 0.3s;
-    grid-column: span 2;
 }
 
 .btnCancel:hover {
-    background-color: transparent;
-    border-color: #f52e2e;
-    color: #f52e2e;
-    box-shadow: 0px 6px 13px;
-
+    background-color: #f86d6d;
+    color: var(--text-dark);
 }
 
 #btn-excluir {
- font-family: Arial, sans-serif; 
- background-color: rgba(255, 0, 0, 0.719);
- justify-content: center;
- align-items: center;
- height: 40px;
- margin-top: 10px;
- border-radius: 12px;
- width: 100%;
- transition: 0.3s;
- cursor: pointer;
- font-size: 17px;
+    background-color: transparent;
+    color: var(--alert-red);
+    border: 2px solid var(--alert-red);
+    height: 45px;
+    width: 350px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 #btn-excluir:hover {
-background-color: transparent;
-border-color: rgba(255, 0, 0, 0.719);
-color: rgba(255, 0, 0, 0.719);
-box-shadow: 0px 6px 13px;
+    background-color: var(--alert-red);
+    color: white;
 }
 
-#link-nf {
-    color: black;
-    text-decoration: none;
-    height: 40px;
-    border-radius: 10px;
-    border: 2px solid;
-    box-sizing: border-box;
-    padding: 2%;
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    justify-content: center;
-    background: #227affdc;
-    transition: 0.3s;
+.cadastro-patrimonio > div {
+    grid-column: span 1;
 }
 
-#link-nf:hover {
-    background-color: transparent;
-    border-color: #227affdc;
-    box-shadow: 2px 3px 5px;
+@media (max-width: 600px) {
+    .cadastro-patrimonio {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+    }
+    .titulo-cadastro, #btnCadastrar, .btnCancel, #btn-excluir, label, input {
+        grid-column: span 1;
+    }
 }
-
-#link-termo {
-    color: black;
-    text-decoration: none;
-    height: 40px;
-    border-radius: 10px;
-    border: 2px solid;
-    box-sizing: border-box;
-    padding: 2%;
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    justify-content: center;
-    background: #227affdc;
-    transition: 0.3s;
-}
-
-#link-termo:hover {
-    background-color: transparent;
-    border-color: #227affdc;
-    box-shadow: 2px 3px 5px;
-}
-

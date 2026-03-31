@@ -198,10 +198,7 @@
                 }
                     try {
                         const resposta = await fetch(`/patrimonios-deletar-back/${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                            'Authorization': `Bearer ${token}`
-                        }, 
+                            method: 'DELETE', 
                         });
 
                         if (resposta.ok) {
