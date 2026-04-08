@@ -53,7 +53,7 @@
             
             <button id="btnCadastrar" type="submit">Editar</button>
             <div class="cancelar">
-                <a href="http://localhost:63263/patrimonios" class="btnCancel">Cancelar</a>
+                <a href="http://192.168.3.254:63263/patrimonios" class="btnCancel">Cancelar</a>
             </div>
             <div>
                 <button id="btn-excluir" type="button">Excluir</button>
@@ -88,7 +88,7 @@
                     const link_termo = document.getElementById('link-termo');
                     
                     if(idDoc) {
-                        link_termo.href = `http://localhost:63263/ver-termo/${idDoc}`;
+                        link_termo.href = `http://192.168.3.254:63263/ver-termo/${idDoc}`;
                         link_termo.textContent = `Termo de cuidados do equipamento: ${nPatrimonio}`;
                         link_termo.target = "_blank";
                     } else {
@@ -97,7 +97,7 @@
                     }
 
                     if (idDoc) {
-                    link_nf.href = `http://localhost:63263/ver-pdf/${idDoc}`;
+                    link_nf.href = `http://192.168.3.254:63263/ver-pdf/${idDoc}`;
                     link_nf.textContent = `Nota Fiscal do equipamento: ${nPatrimonio}`
                     link_nf.target = '_blank';
                     } else {
@@ -162,7 +162,7 @@
                             confirmButtonText: 'Ok'
                         }).then((result => {
                             if (result.isConfirmed) {
-                                window.location.href = "http://localhost:63263/patrimonios"
+                                window.location.href = "http://192.168.3.254:63263/patrimonios"
                             }
                         }))
                     } else {
@@ -187,56 +187,51 @@
 
         
 
-           btnExcluir.addEventListener('click', async function () {
-                if (!id) {
-                    Swal.fire (
-                            'Erro!',
-                            'Erro, ID não encontrado...',
-                            'error'
-                        )
-                    return
-                }
-                    try {
-                        const resposta = await fetch(`/patrimonios-deletar-back/${id}`, {
-                            method: 'DELETE', 
-                        });
+btnExcluir.addEventListener('click', async function () {
+    if (!id) {
+        Swal.fire('Erro!', 'ID não encontrado...', 'error');
+        return;
+    }
 
-                        if (resposta.ok) {
-                                Swal.fire({
-                                title: 'Você tem certeza?',
-                                text: "Deseja excluir este usuário?",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Sim, excluir!',
-                                cancelButtonText: 'Não, cancelar' 
-                                }).then((result) => {
-                                if (result.isConfirmed) {
-                                    Swal.fire({
-                                    title: 'Sucesso!',
-                                    text: 'Redirecionando em 3 segundos...',
-                                    icon: 'success',
-                                    timer: 3000,
-                                    timerProgressBar: true,
-                                    didClose: () => {
-                                        window.location.href = "http://localhost:63263/patrimonios";
-                                    }
-                                    });
-                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    console.log("O usuário cancelou a ação.");
-                                }
-                                });
-                        } else {
-                           Swal.fire('Erro!', "Erro ao tentar apagar patrimonio!", 'error')
-                        } 
-                    } catch (err) {
-                        conosle.error("Erro na conexão: ", err);
-                        Swal.fire('Erro!', "Erro no servidor!", 'error')
-                        
-                    }
-            });
-        
+    Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Deseja excluir este patrimônio?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, excluir!',
+        cancelButtonText: 'Não, cancelar'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const resposta = await fetch(`/patrimonios-deletar-back/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (resposta.ok) {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'Redirecionando em 3 segundos...',
+                        icon: 'success',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didClose: () => {
+                            window.location.href = "http://192.168.3.254:63263/patrimonios";
+                        }
+                    });
+                } else {
+                    Swal.fire('Erro!', "Erro ao tentar apagar patrimônio!", 'error');
+                }
+            } catch (err) {
+                console.error("Erro na conexão: ", err);
+                Swal.fire('Erro!', "Erro no servidor!", 'error');
+            }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            console.log("O usuário cancelou a ação.");
+        }
+    });
+});       
        </script>
         </form>
     </div>  
