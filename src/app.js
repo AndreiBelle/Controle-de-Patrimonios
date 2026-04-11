@@ -15,7 +15,7 @@ app.use(cors());
 
 
 // app.use(express.static...): ESSENCIAL. Diz ao Node que a pasta 'public' é aberta.
-// Sem isso, seu HTML não consegue carregar o CSS ou imagens.
+// Sem isso, HTML não consegue carregar o CSS ou imagens.
 app.use(express.static(path.join(__dirname, '../public')));
 
 

@@ -52,7 +52,7 @@
             <button id="btnCadastrar" type="submit">Cadastrar</button>
 
             
-            <a href="http://192.168.3.254:63263/patrimonios" class="btnCancel">Cancelar</a>
+            <a href="http://localhost:63263/patrimonios" class="btnCancel">Cancelar</a>
             
             <script>
                 async function cadastrarPatrimonio(event) {
@@ -83,7 +83,7 @@
                             confirmButtonText: 'Show de bola!'
                         }).then((result) => {
                             if(result.isConfirmed) {
-                                window.location.href = "http://192.168.3.254:63263/patrimonios"
+                                window.location.href = "http://localhost:63263/patrimonios"
                             }
                         })
                     } else if (resposta.status === 409){

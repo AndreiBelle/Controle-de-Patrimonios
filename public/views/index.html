@@ -17,8 +17,8 @@
                     <li class="dropdown">
                         <a href="#" class="btnCadastro-menu">Cadastros</a>
                         <ul class="submenu">
-                            <li><a href="http://192.168.3.254:63263/cadastrar-patrimonio" class="btnCadastro">Cadastrar Patrimônios</a></li>
-                            <li><a href="http://192.168.3.254:63263/importacao-back" class="btnCadastro">Importar Cadastro</a></li>
+                            <li><a href="http://localhost:63263/cadastrar-patrimonio" class="btnCadastro">Cadastrar Patrimônios</a></li>
+                            <li><a href="http://localhost:63263/importacao-back" class="btnCadastro">Importar Cadastro</a></li>
                             <li><a href="#" class="btnSair" id="btnSair">Sair</a></li>
                         </ul>
                     </li>
@@ -48,7 +48,7 @@
                 return;
             }
 
-            const resposta = await fetch(`http://192.168.3.254:63263/patrimonios-backListar`, {
+            const resposta = await fetch(`http://localhost:63263/patrimonios-backListar`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }, 
@@ -98,7 +98,7 @@
                 `;
 
             card.addEventListener("dblclick", () => {
-                window.location.href = `http://192.168.3.254:63263/editar/${registro.id}?id=${registro.id}`;
+                window.location.href = `http://localhost:63263/editar/${registro.id}?id=${registro.id}`;
             })
                 document.getElementById('container-cards').appendChild(card);
             });
